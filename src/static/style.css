@@ -1,0 +1,160 @@
+/* Alerta do Bairro: estilo do Sprint 0
+   Decisões:
+   - Fontes do sistema (nenhum download de fonte: eixo meio ambiente).
+   - Cabeçalho no formato das placas azuis de rua: o produto fala de "rua".
+   - Texto grande e contraste alto para o morador idoso (eixo sociedade). */
+
+:root {
+  --placa: #123E7A;      /* azul de placa de rua */
+  --placa-texto: #FFFFFF;
+  --texto: #1C2430;
+  --fundo: #F7F8FA;
+  --linha: #C9D1DC;
+  --alerta: #8A4B00;     /* âmbar escuro, contraste > 4.5:1 sobre o fundo */
+  --alerta-fundo: #FFF3D6;
+  --erro: #A1121C;
+  --foco: #F2B705;
+}
+
+* { box-sizing: border-box; }
+
+html { font-size: 112.5%; } /* 18px de base */
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--texto);
+  background: var(--fundo);
+  line-height: 1.55;
+}
+
+.pular {
+  position: absolute;
+  left: -999px;
+}
+.pular:focus {
+  left: 1rem;
+  top: 1rem;
+  background: #fff;
+  padding: .5rem .75rem;
+  z-index: 10;
+}
+
+.placa {
+  margin: 1.25rem auto 0;
+  max-width: 34rem;
+  width: calc(100% - 2rem);
+  background: var(--placa);
+  color: var(--placa-texto);
+  border: 4px solid var(--placa-texto);
+  outline: 2px solid var(--placa);
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+  text-align: center;
+}
+.placa h1 {
+  margin: 0;
+  font-size: 2rem;
+  letter-spacing: .02em;
+  line-height: 1.15;
+}
+.placa p {
+  margin: .25rem 0 0;
+  font-size: .95rem;
+}
+
+main {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 1rem;
+}
+
+h2 {
+  font-size: 1.25rem;
+  margin: 0 0 .5rem;
+}
+
+.corte {
+  border-left: 6px solid var(--placa);
+  padding-left: 1rem;
+  margin-bottom: 2rem;
+}
+.corte p { margin: 0; }
+
+form {
+  display: grid;
+  gap: .6rem;
+}
+
+label {
+  font-weight: 700;
+}
+
+select, button {
+  font: inherit;
+  min-height: 3rem;
+  border-radius: 8px;
+}
+
+select {
+  width: 100%;
+  padding: .5rem .75rem;
+  border: 2px solid var(--texto);
+  background: #fff;
+  color: var(--texto);
+}
+select[aria-invalid="true"] { border-color: var(--erro); }
+
+button {
+  border: 0;
+  background: var(--placa);
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+button:hover { background: #0D2E5C; }
+
+:focus-visible {
+  outline: 4px solid var(--foco);
+  outline-offset: 2px;
+}
+
+.erro {
+  color: var(--erro);
+  font-weight: 700;
+  margin: 0;
+}
+
+.retorno {
+  background: #E6F0FB;
+  border: 1px solid var(--placa);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+}
+
+.nota {
+  font-size: .9rem;
+  margin-top: 1rem;
+}
+
+.limite {
+  margin-top: 2rem;
+  background: var(--alerta-fundo);
+  color: var(--alerta);
+  border-radius: 8px;
+  padding: .75rem 1rem;
+  font-weight: 600;
+}
+.limite p { margin: 0; }
+
+footer {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 1rem 1rem 2rem;
+  font-size: .9rem;
+  border-top: 1px solid var(--linha);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; }
+}
