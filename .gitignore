@@ -1,7 +1,11 @@
 __pycache__/
-*.pyc
+*.py[cod]
+.pytest_cache/
 .venv/
 venv/
-*.db
+backend/data/*.db
+backend/.tmp/
+frontend/node_modules/
+frontend/dist/
 .env
 .DS_Store

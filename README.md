@@ -1,53 +1,74 @@
 # Alerta do Bairro
 
-> **Se apenas o registro de uma ocorrência (tipo, rua e horário) e sua exibição para os moradores do mesmo bairro funcionar, nosso produto ainda resolve algo real para moradores que hoje dependem de boca a boca e de grupos de WhatsApp dispersos para saber o que acontece na rua deles.**
+Aplicação web comunitária para registrar ocorrências, visualizar avisos no mapa e configurar alertas por distância. O MVP usa **React + TypeScript** no frontend, **FastAPI + SQLite** no backend e foi pensado primeiro para celulares.
 
-Aplicação web comunitária de avisos de furto e roubo para bairros. Projeto da disciplina **Computação, Sociedade e Meio Ambiente**.
+> Poucos registros não significa área segura. Os avisos são enviados pela própria comunidade e não substituem um boletim de ocorrência.
 
-## O que o produto faz hoje
+## O que já funciona
 
-Sprint 0: página inicial com o nome do produto, a frase de corte e o primeiro campo real do formulário de ocorrência ("Tipo de ocorrência"). O envio ainda não grava dados.
+- login simples; no primeiro acesso a conta é criada automaticamente;
+- mapa com ocorrências dos últimos 7 dias e distância até o morador;
+- registro com tipo, referência, horário e ponto aproximado no mapa;
+- alertas dentro do aplicativo com raio entre 0,5 e 10 km;
+- sessão protegida por token e senha armazenada com hash PBKDF2;
+- layout responsivo e navegação por teclado;
+- nenhum campo de foto ou descrição de pessoas.
+
+Notificação push em segundo plano e moderação são evoluções futuras, não fazem parte deste MVP.
 
 ## Como rodar
 
-Requisitos: Python 3.10+
+Requisitos: Python 3.10+ e Node.js 20+.
 
-```bash
-cd src
+### 1. Backend
+
+```powershell
+cd backend
 python -m venv .venv
-source .venv/bin/activate        # Windows: .venv\Scripts\activate
+.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-python app.py
+python -m uvicorn app.main:app --reload --port 8000
 ```
 
-Abra http://localhost:5000 no navegador.
+A API estará em `http://localhost:8000` e a documentação em `http://localhost:8000/docs`.
+
+### 2. Frontend
+
+Em outro terminal:
+
+```powershell
+cd frontend
+npm.cmd install
+npm.cmd run dev
+```
+
+Abra `http://localhost:5173`. Use qualquer e-mail e uma senha com ao menos 6 caracteres. A localização inicial aponta para o Centro de Curitiba; **Usar minha localização** pode substituí-la.
+
+## Testes e build
+
+```powershell
+cd backend
+python -m pytest -q
+
+cd ..\frontend
+npm.cmd run lint
+npm.cmd run build
+```
 
 ## Estrutura
 
-```
-docs/
-  aulas/        Documentos das Aulas 01 a 05 (termo, ODS, ética, usuários, vieses, plano de pesquisa)
-  adr/          Registros de decisão de arquitetura
-  diario/       Diário de cada aula
-  canvas-3-eixos.md
-  priorizacao.md
-  definition-of-done.md
-src/            Código da aplicação (Flask + SQLite)
+```text
+backend/
+  app/             API FastAPI, distância e persistência SQLite
+  tests/           teste do fluxo completo da API
+frontend/
+  src/             React, mapa, login, denúncias e alertas
+docs/              decisões, escopo acadêmico e contrato da API
 ```
 
-## Decisões registradas
+## Limites e segurança
 
-- [ADR-001](docs/adr/ADR-001-aplicacao-web.md): Aplicação web em vez de app nativo
-
-## Limitação declarada dos dados
-
-As ocorrências são enviadas por moradores e dependem de quem tem celular e conhece o produto. **Poucos registros não significa área segura.**
-
-## Equipe
-
-| Membro | Responsabilidade nesta sprint |
-|---|---|
-| _nome_ | Repositório, estrutura e README |
-| _nome_ | Página inicial com campo do formulário |
-| _nome_ | Canvas dos 3 eixos e migração de documentos |
-| _nome_ | ADR-001 e diário da aula |
+- O aplicativo não substitui canais oficiais. Em emergência, ligue 190.
+- Não há campos para nome, foto ou descrição de suspeitos.
+- A posição marcada deve ser aproximada, sem expor o endereço de uma vítima.
+- Alertas são exibidos somente quando o usuário abre o aplicativo.
